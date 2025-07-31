@@ -231,7 +231,10 @@
         <div class="tree tree-5"></div>
         <div class="ground"></div>
     </div>
-    
+        <audio id="bgMusic" loop>
+        <source src="https://sharefs.kugou.com/202507312005/d6294a12388c26edaccde6922df5d02f/v3/592376d8f22634ad4ac1db170639f57d/yp/full/ap1000_us0_pi409_s153913309.mp3"audio/mpeg>
+        您的浏览器不支持音频元素。
+    </audio>
     <!-- 雪花效果 -->
     <canvas id="snow-container"></canvas>
 
@@ -245,6 +248,16 @@
     <div id="credit">❄️ </div>
     
     <script>
+        // 自动播放音乐（静音处理，需要用户交互）
+        const bgMusic = document.getElementById('bgMusic');
+        bgMusic.volume = 0.3;
+        
+        document.body.addEventListener('click', function() {
+            if (1) {
+                bgMusic.play().catch(e => console.log("自动播放音乐需要用户交互"));
+            }
+        }, { once: true });
+
         document.addEventListener('DOMContentLoaded', () => {
             // 创建雪花效果
             function createSnow() {
@@ -339,6 +352,7 @@
 
     <script>
         document.addEventListener('DOMContentLoaded', function() {
+            
             // 设置雪花效果
             const canvas = document.getElementById('snow-container');
             const ctx = canvas.getContext('2d');
