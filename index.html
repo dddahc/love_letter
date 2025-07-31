@@ -1,0 +1,429 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>情书</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            min-height: 100vh;
+            background: linear-gradient(180deg, #e0f7ff 0%, #8fc0d8 100%);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+            position: relative;
+        }
+
+        #snow-container {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 1;
+        }
+        /* 雪花容器 */
+        #snow-container {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 2;
+        }
+        
+        #scene {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            z-index: 2;
+            pointer-events: none;
+        }
+
+        .mountain {
+            position: absolute;
+            bottom: 0;
+            width: 0;
+            height: 0;
+            border-left: 50px solid transparent;
+            border-right: 50px solid transparent;
+            border-bottom: 100px solid #ffffff;
+            filter: blur(1px);
+            opacity: 0.9;
+        }
+
+        .mountain-1 {
+            left: 15%;
+            border-bottom-width: 120px;
+        }
+
+        .mountain-2 {
+            left: 40%;
+            border-bottom-width: 150px;
+        }
+
+        .mountain-3 {
+            left: 65%;
+            border-bottom-width: 130px;
+        }
+
+        .ground {
+            position: absolute;
+            bottom: 0;
+            width: 100%;
+            height: 30%;
+            background: linear-gradient(to top, #e3eeff, #ffffff);
+        }
+
+        .tree {
+            position: absolute;
+            bottom: 30%;
+            width: 30px;
+            height: 0;
+            border-left: 15px solid transparent;
+            border-right: 15px solid transparent;
+            border-bottom: 60px solid #2b5a38;
+            filter: blur(0.5px);
+        }
+
+        .tree-1 { left: 20%; }
+        .tree-2 { left: 45%; }
+        .tree-3 { left: 70%; }
+        .tree-4 { left: 35%; bottom: 25%; transform: scale(1.5); }
+        .tree-5 { left: 60%; bottom: 25%; transform: scale(1.5); }
+
+        #title-container {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 10;
+            pointer-events: none;
+        }
+
+        .title {
+            font-size: 5rem;
+            font-weight: 700;
+            color: transparent;
+            background: linear-gradient(135deg, #a0d2fd, #e0f0ff, #f1f8ff);
+            -webkit-background-clip: text;
+            background-clip: text;
+            text-shadow: 0px 2px 10px rgba(100, 230, 255, 0.8);
+            letter-spacing: 10px;
+            opacity: 0;
+            transform: translateY(30px);
+            margin-bottom: 2rem;
+        }
+
+        .subtitle {
+            font-size: 2rem;
+            color: #fff;
+            text-shadow: 0 0 10px rgba(0, 60, 100, 0.7);
+            letter-spacing: 30px;
+            opacity: 0;
+            transform: translateY(30px);
+            font-weight: 300;
+            font-style: italic;
+        }
+
+        /* 动画效果 */
+        .letter-animation {
+            animation: fadeInUp 1.8s cubic-bezier(0.2, 0.8, 0.3, 1.1) forwards;
+            animation-delay: 0.5s;
+        }
+
+        .letter-animation-2 {
+            animation: fadeInUp 1.8s cubic-bezier(0.2, 0.8, 0.3, 1.1) forwards;
+            animation-delay: 1s;
+        }
+
+        @keyframes fadeInUp {
+            0% {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            100% {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes sway {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-5px); }
+            75% { transform: translateX(5px); }
+        }
+
+        .snowflake {
+            position: absolute;
+            width: 8px;
+            height: 8px;
+            background: white;
+            border-radius: 50%;
+            filter: blur(1px);
+            z-index: 5;
+            animation: fall linear infinite, sway 3s ease-in-out infinite;
+            animation-duration: calc(20s * var(--speed));
+            animation-delay: calc(-5s * var(--delay));
+        }
+
+        #credit {
+            position: absolute;
+            bottom: 15px;
+            right: 15px;
+            color: rgba(255,255,255,0.7);
+            font-size: 0.8rem;
+            z-index: 100;
+        }
+
+        /* 响应式调整 */
+        @media (max-width: 768px) {
+            .title {
+                font-size: 4rem;
+            }
+            .subtitle {
+                font-size: 1.2rem;
+            }
+            .mountain {
+                border-left: 30px solid transparent;
+                border-right: 30px solid transparent;
+                border-bottom-width: 90px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .title {
+                font-size: 3rem;
+            }
+            .subtitle {
+                font-size: 1rem;
+            }
+            .mountain {
+                border-left: 20px solid transparent;
+                border-right: 20px solid transparent;
+                border-bottom-width: 70px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div id="scene">
+        <div class="mountain mountain-1"></div>
+        <div class="mountain mountain-2"></div>
+        <div class="mountain mountain-3"></div>
+        <div class="tree tree-1"></div>
+        <div class="tree tree-2"></div>
+        <div class="tree tree-3"></div>
+        <div class="tree tree-4"></div>
+        <div class="tree tree-5"></div>
+        <div class="ground"></div>
+    </div>
+    
+    <!-- 雪花效果 -->
+    <canvas id="snow-container"></canvas>
+
+    <div id="snow-container"></div>
+    
+    <div id="title-container">
+        <div class="title">给吴柯</div>
+        <div class="subtitle">- 你好吗？我很好-</div>
+    </div>
+    
+    <div id="credit">❄️ 北海道雪景动画</div>
+    
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // 创建雪花效果
+            function createSnow() {
+                const container = document.getElementById('snow-container');
+                const snowflakesCount = 200;
+                
+                for(let i = 0; i < snowflakesCount; i++) {
+                    const snowflake = document.createElement('div');
+                    snowflake.classList.add('snowflake');
+                    
+                    // 随机位置
+                    const posX = Math.random() * window.innerWidth;
+                    const posY = Math.random() * -100;
+                    
+                    // 随机大小 (4px 到 10px)
+                    const size = Math.random() * 6 + 4;
+                    
+                    // 随机下落速度和摇摆延迟
+                    const speed = Math.random() + 0.5;
+                    const delay = Math.random() * 2;
+                    const opacity = Math.random() * 0.7 + 0.3;
+                    
+                    // 设置样式
+                    snowflake.style.left = `${posX}px`;
+                    snowflake.style.top = `${posY}px`;
+                    snowflake.style.width = `${size}px`;
+                    snowflake.style.height = `${size}px`;
+                    snowflake.style.opacity = opacity;
+                    snowflake.style.setProperty('--speed', speed);
+                    snowflake.style.setProperty('--delay', delay);
+                    
+                    // 为部分雪花添加摇摆动画
+                    if(Math.random() > 0.5) {
+                        snowflake.style.animationName = 'fall, sway';
+                    }
+                    
+                    container.appendChild(snowflake);
+                }
+            }
+            
+            // 激活文字动画
+            function activateTextAnimation() {
+                setTimeout(() => {
+                    document.querySelector('.title').classList.add('letter-animation');
+                    document.querySelector('.subtitle').classList.add('letter-animation-2');
+                }, 200);
+            }
+            
+            // 创建背景树
+            function createTrees() {
+                const container = document.getElementById('scene');
+                const treesToCreate = 20;
+                
+                for(let i = 0; i < treesToCreate; i++) {
+                    const tree = document.createElement('div');
+                    tree.classList.add('tree');
+                    
+                    // 随机位置和大小
+                    const left = Math.random() * 100;
+                    const height = Math.random() * 80 + 50;
+                    const bottom = Math.random() * 10 + 25;
+                    const opacity = Math.random() * 0.4 + 0.4;
+                    
+                    tree.style.left = `${left}%`;
+                    tree.style.height = `${height}px`;
+                    tree.style.borderBottomWidth = `${height}px`;
+                    tree.style.bottom = `${bottom}%`;
+                    tree.style.opacity = opacity;
+                    
+                    // 为远处的树添加模糊效果
+                    if (left > 20 && left < 80) {
+                        tree.style.filter = `blur(${Math.random() * 2}px)`;
+                    }
+                    
+                    container.appendChild(tree);
+                }
+            }
+            
+            // 启动所有效果
+            createSnow();
+            activateTextAnimation();
+            createTrees();
+            
+            // 处理窗口大小变化
+            window.addEventListener('resize', () => {
+                // 清除容器并重新创建雪花，防止重复
+                document.getElementById('snow-container').innerHTML = '';
+                createSnow();
+            });
+        });
+    </script>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // 设置雪花效果
+            const canvas = document.getElementById('snow-container');
+            const ctx = canvas.getContext('2d');
+            
+            // 设置画布尺寸
+            function setCanvasSize() {
+                canvas.width = window.innerWidth;
+                canvas.height = window.innerHeight;
+            }
+            
+            setCanvasSize();
+            window.addEventListener('resize', setCanvasSize);
+            
+            // 雪花数组
+            const snowflakes = [];
+            const snowflakeCount = 200;
+            
+            // 创建雪花对象
+            class Snowflake {
+                constructor() {
+                    this.x = Math.random() * canvas.width;
+                    this.y = Math.random() * canvas.height;
+                    this.size = Math.random() * 5 + 2;
+                    this.speedX = Math.random() * 1 - 0.5;
+                    this.speedY = Math.random() * 2 + 1;
+                    this.opacity = Math.random() * 0.5 + 0.5;
+                    this.wind = Math.random() * 0.5 - 0.25;
+                    this.windChange = Math.random() * 0.01 - 0.005;
+                }
+                
+                update() {
+                    this.y += this.speedY;
+                    this.x += this.speedX + this.wind;
+                    
+                    this.wind += this.windChange;
+                    
+                    // 如果雪花飘出画布，重新生成一个新的
+                    if (this.y > canvas.height || this.x > canvas.width || this.x < 0) {
+                        this.y = 0;
+                        this.x = Math.random() * canvas.width;
+                    }
+                }
+                
+                draw() {
+                    ctx.beginPath();
+                    ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                    ctx.fillStyle = `rgba(255, 255, 255, ${this.opacity})`;
+                    ctx.fill();
+                }
+            }
+            
+            // 初始化雪花
+            for (let i = 0; i < snowflakeCount; i++) {
+                snowflakes.push(new Snowflake());
+            }
+            
+            // 绘制雪花动画
+            function animateSnow() {
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+                
+                for (let snowflake of snowflakes) {
+                    snowflake.update();
+                    snowflake.draw();
+                }
+                
+                requestAnimationFrame(animateSnow);
+            }
+            
+            animateSnow();
+            
+            // 添加信封按钮点击效果
+            document.getElementById('envelope1').addEventListener('click', function() {
+                this.classList.toggle('envelope-open');
+                setTimeout(() => {
+                    alert('即使相隔千里，我依然挂念着你，希望一切都好 ❄️');
+                }, 300);
+            });
+            
+            document.getElementById('envelope2').addEventListener('click', function() {
+                this.classList.toggle('envelope-open');
+                setTimeout(() => {
+                    alert('雪落无声，思念有痕。一切安好，勿念 🌨️');
+                }, 300);
+            });
+        });
+    </script>
+</body>
+</html>
