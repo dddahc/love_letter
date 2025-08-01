@@ -13,7 +13,7 @@
 
         body {
             font-family: 'Arial', sans-serif;
-            min-height: 100vh;
+           min-height: 100vh;
             background: linear-gradient(180deg, #e0f7ff 0%, #8fc0d8 100%);
             display: flex;
             justify-content: center;
@@ -33,7 +33,7 @@
         /* 雪花容器 */
 
         img {
-            max-width: 100%;
+            width: 100%;
             height: 100%;
             display: block;
         }  
@@ -250,7 +250,7 @@
             // 创建背景树
             function createTrees() {
                 const container = document.getElementById('scene');
-                const treesToCreate = 20;
+
                 
                 for(let i = 0; i < treesToCreate; i++) {
                     const tree = document.createElement('div');
@@ -310,7 +310,9 @@
         }
             setCanvasSize();
             window.addEventListener('resize', setCanvasSize);
-            
+
+            window.addEventListener('resize', setCanvasSize);
+
             // 雪花数组
             const snowflakes = [];
             const snowflakeCount = 200;
@@ -368,20 +370,7 @@
             
             animateSnow();
             
-            // 添加信封按钮点击效果
-            document.getElementById('envelope1').addEventListener('click', function() {
-                this.classList.toggle('envelope-open');
-                setTimeout(() => {
-                    alert('即使相隔千里，我依然挂念着你，希望一切都好 ❄️');
-                }, 300);
-            });
-            
-            document.getElementById('envelope2').addEventListener('click', function() {
-                this.classList.toggle('envelope-open');
-                setTimeout(() => {
-                    alert('雪落无声，思念有痕。一切安好，勿念 🌨️');
-                }, 300);
-            });
+
         });
     </script>
 </body>
