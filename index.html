@@ -39,11 +39,15 @@
             height: 100%;
             z-index: 2;
         }
-        
+        img {
+            max-width: 100%;
+            height: 100%;
+            display: block;
+        }  
         #scene {
             position: absolute;
-            width: 100%;
-            height: 100%;
+            width: 0%;
+            height: 0%;
             z-index: 2;
             pointer-events: none;
         }
@@ -220,6 +224,15 @@
     </style>
 </head>
 <body>
+
+
+    <div class="image-container">
+        <!-- 修改图片路径为你本地的图片文件名 -->
+        <img id="displayedImage" src="boat.jpg" alt="图片">
+        <div class="file-info">
+        </div>
+    </div>
+
     <div id="scene">
         <div class="mountain mountain-1"></div>
         <div class="mountain mountain-2"></div>
@@ -362,7 +375,11 @@
                 canvas.width = window.innerWidth;
                 canvas.height = window.innerHeight;
             }
-            
+                                // 设置img大小为窗口尺寸
+        function resizeimg() {
+            img.width = window.innerWidth;
+            img.height = window.innerHeight;
+        }
             setCanvasSize();
             window.addEventListener('resize', setCanvasSize);
             
